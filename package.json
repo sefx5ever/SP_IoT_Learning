@@ -1,0 +1,19 @@
+{
+  "name": "gae-employee",
+  "version": "1.0.0",
+  "description": "Simple example of Google App Engine",
+  "main": "employee.js",
+  "dependencies": {
+    "@google-cloud/datastore": "^6.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "node-cmd": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node employee.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wei-Tsung Su",
+  "license": "ISC"
+}

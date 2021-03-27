@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello, ECharts</title>
+    <script src="echarts.min.js"></script>
+</head>
+</html>
+<body>
+    <div id="main" style="width:600px;height:400px;">
+    </div>
+    <script type="text/javascript">
+      // Echarts程式碼撰寫在這裡
+        fetch('https://iot-learn-scu-wyne.df.r.appspot.com/getUser', {})
+        .then((response) => {
+        // 這裡會得到一個ReadableStream的物件
+        // 透過 blob(),json(),text()轉換成其它格式
+            return response.text(); 
+        }).then((jsonData) => {
+            var users = []
+            var ages = []
+            var sens = []
+            JSON.parse(jsonData).forEach(user => {
+                users.push(user.name);
+                ages.push(user.age);
+                sens.push(user.sen)
+            });
+
+            var echart = echarts.init(document.getElementById('main'));
+            var option = {
+                title: {text:'Hello, ECharts'},
+                xAxis: {data:users},
+                yAxis: {},
+                series: [{name:'年齡', type:'line', data:ages}],
+                legend: {data:['年齡']},  
+                tooltip: {}, 
+                toolbox: {
+                    feature : {
+                        dataView: {},
+                        dataZoom: {},
+                        restore: {},
+                        saveAsImage: {},
+                        magicType: {
+                            type: ['bar', 'line']
+                        }
+                    }
+                }
+            };
+            echart.setOption(option);
+        }).catch((err) => {
+        console.log('Error:', err);
+        });
+
+
+    </script>
+</body>
+

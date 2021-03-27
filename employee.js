@@ -9,16 +9,26 @@ const addUser = user => {
       data: user,
     });
   };
- 
+
 const getUser = () => {
     const query = datastore
       .createQuery('users')
     return datastore.runQuery(query);
   };  
 
+const getUserByName = (name) => {
+  const query = datastore
+    .createQuery('users')
+    .filter('name','=',name)
+  return datastore.runQuery(query);
+};
+
+app.use('/view',express.static('static-echart'))
+
 app.get('/', (req, res) => {
   res.send('Hello from App Engine!');
 });
+
 app.get('/adduser/:name', async (req, res, next) => {
     const user = {
         name: req.params.name,
@@ -42,6 +52,16 @@ app.get('/getuser', async (req, res, next) => {
         next(error);
       }
 });
+
+app.get('/getUserByName/:name', async (req,res,next) => {
+  try {
+    const [entities] = await getUserByName(req.params.name);
+    users = JSON.stringify(entities);
+    res.send(`${users}`)
+  } catch (error) {
+    next(error)
+  }
+})
 
 // Listen to the App Engine-specified port, or 8080 otherwise
 const PORT = process.env.PORT || 8080;
